@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/task_provider.dart';
 
@@ -25,8 +26,8 @@ class AddTaskScreen extends StatelessWidget {
                 if (_controller.text.isNotEmpty) {
                   Provider.of<TaskProvider>(context, listen: false)
                       .addTask(_controller.text);
-                  Navigator.pop(context);
                 }
+                context.go('/');
               },
               child: Text('Ajouter'),
             )

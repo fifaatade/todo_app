@@ -11,5 +11,5 @@ final GoRouter router = GoRouter(routes: [
   GoRoute(
     path: '/task',
     builder: (context, state) => AddTaskScreen(),
-  )
+  ),
 ]);

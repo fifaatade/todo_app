@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../data/providers/task_provider.dart';
 import '../widgets/task_list.dart';
 import 'add_task_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -13,12 +14,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: TaskList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddTaskScreen()),
-          );
-        },
+        onPressed: () => context.go('/task'),
         child: Icon(Icons.add),
       ),
     );

@@ -4,19 +4,24 @@ import '../../data/models/task.dart';
 import '../../data/providers/task_provider.dart';
 import 'package:go_router/go_router.dart'; // Importe GoRouter
 
-class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({super.key});
+class EditTaskScreen extends StatelessWidget {
+  final int taskId;
+
+  const EditTaskScreen({super.key, required this.taskId});
 
   @override
   Widget build(BuildContext context) {
+    final taskProvider = Provider.of<TaskProvider>(context);
+    final task = taskProvider.tasks.firstWhere((t) => t.id == taskId);
+
     final _formKey = GlobalKey<FormState>();
-    final _titleController = TextEditingController();
-    final _descriptionController = TextEditingController();
-    final taskProvider = Provider.of<TaskProvider>(context, listen: false);
+    final _titleController = TextEditingController(text: task.title);
+    final _descriptionController =
+        TextEditingController(text: task.description);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ajouter une tâche"),
+        title: const Text("Modifier la tâche"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -50,18 +55,18 @@ class AddTaskScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    final newTask = Task(
-                      id: DateTime.now().millisecondsSinceEpoch,
+                    final updatedTask = Task(
+                      id: task.id,
                       title: _titleController.text,
                       description: _descriptionController.text,
-                      completed: false,
+                      completed: task.completed,
                     );
-                    taskProvider.addTask(newTask);
-                    // Revenir à l'écran principal après avoir ajouté la tâche
+                    taskProvider.updateTask(updatedTask);
+                    // Revenir à l'écran principal après la modification
                     context.go('/');
                   }
                 },
-                child: const Text("Ajouter"),
+                child: const Text("Modifier"),
               ),
             ],
           ),
